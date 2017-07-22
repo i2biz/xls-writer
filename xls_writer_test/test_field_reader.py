@@ -25,3 +25,10 @@ def test_extraction(field_reader, instance):
 def test_missing(field_reader):
   with pytest.raises(exceptions.MissingField):
     field_reader(None, object())
+
+
+@pytest.mark.parametrize("instance", helpers.foobarbaz("canary"))
+def test_const_field_reader(instance):
+  canary = object()
+  field_reader = detail.ConstReader(canary)
+  assert field_reader(field=None, instance=instance) == canary

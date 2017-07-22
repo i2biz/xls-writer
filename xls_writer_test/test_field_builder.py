@@ -29,8 +29,28 @@ def test_default_default():
 
 @pytest.mark.parametrize('default', list(range(10)))
 def test_default_value(default):
-  tested_field = field.FieldFactory("a header", default=default)
+  tested_field = field.FieldFactory("a header", default=default).create()
   assert tested_field.default is default
+
+
+def test_field_reader():
+  canary = object()
+  tested_field = field.FieldFactory("a header").reader(canary).create()
+  assert tested_field.field_reader is canary
+
+
+def test_path_reader():
+  path_canary = "foo.bar.baz"
+  tested_field = field.FieldFactory("a header").path(path_canary).create()
+  assert isinstance(tested_field.field_reader, detail.DefaultFieldReader)
+  assert tested_field.field_reader.path == ['foo', 'bar', 'baz']
+
+
+def test_const_reader():
+  const_canary = object()
+  tested_field = field.FieldFactory("a header").const_field(const_canary).create()
+  assert isinstance(tested_field.field_reader, detail.ConstReader)
+  assert tested_field.field_reader.instance == const_canary
 
 
 @pytest.mark.parametrize('coalesce_to', [int, float, str])

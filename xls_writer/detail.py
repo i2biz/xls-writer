@@ -65,6 +65,18 @@ class NoopFormatter(api.FieldFormatter):
     return instance
 
 
+class ConstReader(api.FieldReader):
+  """
+  Reader that always returns the same value.
+  """
+
+  def __init__(self, instance):
+    self.instance = instance
+
+  def __call__(self, field: TableField, instance) -> object:
+    return self.instance
+
+
 class DefaultFieldReader(api.FieldReader):
   """
   Field reader that extracts row values by traversing object tree using given path.

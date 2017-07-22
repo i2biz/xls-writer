@@ -59,6 +59,22 @@ class FieldFactory(object):
     self.field_reader = detail.DefaultFieldReader(path=path)
     return self
 
+  def const_field(self, const: object) -> 'FieldFactory':
+    """
+    Always return constant value for this field.
+
+    This is useful if column is just missing from source data, yet must be present in output data.
+    """
+    self.field_reader = detail.ConstReader(instance=const)
+    return self
+
+  def reader(self, field_reader: 'api.FieldReader'):
+    """
+    Directly set field reader.
+    """
+    self.field_reader = field_reader
+    return self
+
   def formatter(self, formatter: 'api.FieldFormatter') -> 'FieldFactory':
     """Set formatter explicitly."""
     self.field_formatter = formatter
