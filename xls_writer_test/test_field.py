@@ -44,6 +44,13 @@ def test_simple_default():
     assert tested_field(row=instance) == "canary"
 
 
+def test_missing_default():
+  tested_field = field.FieldFactory("a header", default="canary", required=False) \
+    .path("foo.bar.baz").create()
+
+  assert tested_field(row=object) == "canary"
+
+
 def test_simple_raises():
   tested_field = field.FieldFactory("a header", required=True).path("foo.bar.baz").create()
   for instance in helpers.foobarbaz(None):

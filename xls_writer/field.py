@@ -27,7 +27,11 @@ class DefaultField(_TableField):
   def __call__(self, row):
     """Extract value from row, format it, handling defaults."""
 
-    cell_value = self.field_reader(field=self, instance=row)
+    try:
+      cell_value = self.field_reader(field=self, instance=row)
+    except exceptions.MissingField:
+      cell_value = None
+
     if self.field_empty_check(field=self, instance=cell_value):
       if self.required and self.default is _NO_DEFAULT:
         raise exceptions.MissingField(self)
@@ -40,6 +44,13 @@ class DefaultField(_TableField):
 
 class FieldFactory(object):
   """Implements a field factory."""
+
+  @classmethod
+  def create_const_field(cls, header: str, value: object) -> detail.TableField:
+    """
+    Create field that returns value irregardless of data what is in the row.
+    """
+    return cls(header=header, required=False).const_field(value).noop_empty_check().create()
 
   def __init__(
       self,
