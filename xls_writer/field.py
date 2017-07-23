@@ -34,7 +34,7 @@ class DefaultField(_TableField):
 
     if self.field_empty_check(field=self, instance=cell_value):
       if self.required and self.default is _NO_DEFAULT:
-        raise exceptions.MissingField(self)
+        raise exceptions.MissingField(self, row)
       if self.default is not _NO_DEFAULT:
         cell_value = self.default
     if self.field_formatter:
@@ -98,6 +98,10 @@ class FieldFactory(object):
     For example to format values as integers use: "self.type_formatter(int)".
     """
     self.field_formatter = detail.TypeFormatter(object_type=object_type)
+    return self
+
+  def format_formatter(self, fformat: str, object_type: type=None):
+    self.field_formatter = detail.FormatFormatter(fformat, object_type)
     return self
 
   def empty_check(self, empty_check: 'api.FieldEmptyCheck'):

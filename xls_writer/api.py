@@ -19,7 +19,16 @@ class TableField(object):
     """
 
 
-class FieldReader(object, metaclass=abc.ABCMeta):
+class BaseToString(object):
+
+  def __repr__(self):
+    return "<{typename} {dict}>".format(
+      typename=type(self).__name__,
+      dict=" ".join(["{0}='{1}'".format(*x) for x in sorted(self.__dict__.items())])
+    )
+
+
+class FieldReader(BaseToString, metaclass=abc.ABCMeta):
   """Object that extracts data from row."""
 
   @abc.abstractmethod
@@ -34,7 +43,7 @@ class FieldReader(object, metaclass=abc.ABCMeta):
     raise NotImplementedError
 
 
-class FieldFormatter(object, metaclass=abc.ABCMeta):
+class FieldFormatter(BaseToString, metaclass=abc.ABCMeta):
   """Formats cell value."""
 
   @abc.abstractmethod
@@ -48,7 +57,7 @@ class FieldFormatter(object, metaclass=abc.ABCMeta):
     raise NotImplementedError
 
 
-class FieldEmptyCheck(object, metaclass=abc.ABCMeta):
+class FieldEmptyCheck(BaseToString, metaclass=abc.ABCMeta):
   """
   Checks if field value is empty. If field is empty it will be replaced with default value
   """
