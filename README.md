@@ -1,6 +1,9 @@
 Utility for generating tables
 =============================
 
+[![Build Status](https://travis-ci.org/i2biz/xls-writer.svg?branch=master)](https://travis-ci.org/i2biz/xls-writer)
+
+
 Sometimes you need to create 50 column xls file for to integrate with external system,
 you already have data in Python format. 
 
