@@ -19,7 +19,7 @@ def get_requirements():
 packages = find_packages(
   str(MAIN_DIR),
   include=('xls_writer*',),
-  exclude=[]
+  exclude=['xls_writer_test']
 )
 
 # Did I mention that setup.py is not finest piece of software on earth.
@@ -44,7 +44,7 @@ def read_dir(package: str, directory: str):
 if __name__ == "__main__":
 
   setup(
-    name='xls_writer',
+    name='table-writer',
     version='0.1.0',
     packages=packages,
     license='MIT',
