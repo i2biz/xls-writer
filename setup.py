@@ -47,7 +47,7 @@ if __name__ == "__main__":
     name='xls_writer',
     version='0.1.0',
     packages=packages,
-    license='All Rights reserved',
+    license='MIT',
     author='Jacek Bzdak',
     author_email='jacek@askesis.pl',
     description='A simple utility to format tabular data from python objects.',
