@@ -67,6 +67,7 @@ def test_extension():
   formatter = csv_formatter.CSVFormatterFactory(dialect=csv.excel_tab)
   assert formatter.create().expected_extension == "csv"
 
+
 @pytest.mark.parametrize('close', [True, False])
 def test_formatter_closes_file_when_asked(close):
   file = io.StringIO()
