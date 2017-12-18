@@ -45,7 +45,7 @@ if __name__ == "__main__":
 
   setup(
     name='table-writer',
-    version='0.1.2',
+    version='0.1.3',
     packages=packages,
     license='MIT',
     author='Jacek Bzdak',
