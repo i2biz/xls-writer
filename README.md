@@ -49,7 +49,7 @@ python object).
         FieldFactory.create_const_field("Custom Field 123", "")
       ]
       
-    TABLE_DESCRIPTION = api.TableDescription(fields=fields)
+    table_description = api.TableDescription(fields=fields)
     
 Now we'll format data source to file: 
     

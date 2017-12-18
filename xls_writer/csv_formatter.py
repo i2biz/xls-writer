@@ -26,6 +26,18 @@ class CSVFormatter(api.TableFormatter):
   def type(self) -> api.TableFormatterType:
     return api.TableFormatterType.STRING
 
+  @property
+  def mime_type(self) -> str:
+    return "text/csv"
+
+  @property
+  def expected_extension(self) -> str:
+    return "csv"
+
+  @property
+  def supports_streaming(self) -> bool:
+    return True
+
 
 class CSVFormatterFactory(api.FormatterFactory):
   """CSV Formatter factory"""

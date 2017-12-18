@@ -53,6 +53,20 @@ def test_csv(source_data, table_description):
   assert actual == expected_result
 
 
+def test_csv_supports_streaming():
+  formatter = csv_formatter.CSVFormatterFactory(dialect=csv.excel_tab)
+  assert formatter.create().supports_streaming
+
+
+def test_mime_type():
+  formatter = csv_formatter.CSVFormatterFactory(dialect=csv.excel_tab)
+  assert formatter.create().mime_type == "text/csv"
+
+
+def test_extension():
+  formatter = csv_formatter.CSVFormatterFactory(dialect=csv.excel_tab)
+  assert formatter.create().expected_extension == "csv"
+
 @pytest.mark.parametrize('close', [True, False])
 def test_formatter_closes_file_when_asked(close):
   file = io.StringIO()

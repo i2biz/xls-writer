@@ -76,6 +76,30 @@ class TableFormatter(object, metaclass=abc.ABCMeta):
     super().__init__()
     self.file_object = None
 
+  @property
+  @abc.abstractmethod
+  def supports_streaming(self) -> bool:
+    """
+    Returns mime type for created file.
+    """
+    raise NotImplementedError
+
+  @property
+  @abc.abstractmethod
+  def mime_type(self) -> str:
+    """
+    Returns mime type for created file.
+    """
+    raise NotImplementedError
+
+  @property
+  @abc.abstractmethod
+  def expected_extension(self) -> str:
+    """
+    Returns expected extension for created file
+    """
+    raise NotImplementedError
+
   def initialize_file(self, file_object):
     """
     :param file_object: File opened either in binary mode (if type is BYTES or in char mode)
