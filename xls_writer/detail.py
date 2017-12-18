@@ -56,6 +56,24 @@ class TypeFormatter(api.FieldFormatter):
     return self.object_type(instance)
 
 
+class FormatFormatter(api.FieldFormatter):
+  """
+  Formatter that uses str.format.
+  """
+
+  def __init__(self, field_format:str, object_type: type=None):
+    super().__init__()
+    self.format = field_format
+    self.type = object_type
+
+  def __call__(self, field: TableField, instance) -> object:
+    if self.type is not None:
+      instance = self.type(instance)
+    if isinstance(instance, dict):
+      return self.format.format(**instance)
+    return self.format.format(instance)
+
+
 class NoopFormatter(api.FieldFormatter):
   """
   Formatter that does nothing.
@@ -75,6 +93,18 @@ class ConstReader(api.FieldReader):
 
   def __call__(self, field: TableField, instance) -> object:
     return self.instance
+
+
+class MultiReader(api.FieldReader):
+
+  def __init__(self, child_fields: typing.Mapping[str, api.TableField]):
+    self.child_fields = child_fields
+
+  def __call__(self, field: TableField, instance) -> object:
+    return {
+      field_key: child_field(row=instance)
+      for field_key, child_field in self.child_fields.items()
+    }
 
 
 class DefaultFieldReader(api.FieldReader):
